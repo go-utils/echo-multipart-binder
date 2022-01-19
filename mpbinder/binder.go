@@ -5,21 +5,14 @@ import (
 	"reflect"
 	"strings"
 
+	"github.com/go-utils/echo-multipart-binder/util"
 	"github.com/labstack/echo/v4"
 	"golang.org/x/xerrors"
 )
 
-// BindFunc - custom binder type
-type BindFunc func(interface{}, echo.Context) error
-
-// Bind - custom binder func
-func (fn BindFunc) Bind(i interface{}, ctx echo.Context) error {
-	return fn(i, ctx)
-}
-
 // NewBindFile - constructor
 func NewBindFile(b echo.Binder) echo.Binder {
-	return BindFunc(
+	return util.BindFunc(
 		func(i interface{}, c echo.Context) error {
 			if err := b.Bind(i, c); err != nil {
 				return xerrors.Errorf("failed to bind method: %w", err)
