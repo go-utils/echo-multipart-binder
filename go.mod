@@ -1,6 +1,6 @@
 module github.com/go-utils/echo-multipart-binder
 
-go 1.13
+go 1.16
 
 require (
 	github.com/labstack/echo/v4 v4.6.3
