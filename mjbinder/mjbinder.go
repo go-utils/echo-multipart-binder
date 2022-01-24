@@ -2,7 +2,6 @@ package mjbinder
 
 import (
 	"encoding/json"
-	"fmt"
 	"mime/multipart"
 	"strings"
 
@@ -67,11 +66,9 @@ func bindJsonPart(i interface{}, file *multipart.FileHeader) error {
 
 	defer fp.Close()
 
-	fmt.Println(i)
 	if err := json.NewDecoder(fp).Decode(i); err != nil {
 		return xerrors.Errorf("failed to parse a file as JSON: %w", err)
 	}
-	fmt.Println(i)
 
 	return nil
 }
