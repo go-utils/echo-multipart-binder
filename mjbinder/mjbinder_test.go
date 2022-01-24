@@ -21,7 +21,7 @@ func createRequest(t *testing.T, body interface{}, filenames ...string) (io.Read
 	mpw := multipart.NewWriter(&buf)
 	defer mpw.Close()
 
-	writer, err := mpw.CreatePart(CreateJsonRequestMIMEHeader())
+	writer, err := mpw.CreatePart(CreateJSONRequestMIMEHeader())
 
 	if err != nil {
 		t.Fatal(err)
@@ -71,7 +71,7 @@ func handler(c echo.Context) error {
 func Test_NewMultipartJsonBinder(t *testing.T) {
 	e := echo.New()
 
-	e.Binder = NewMultipartJsonBinder(
+	e.Binder = NewMultipartJSONBinder(
 		mpbinder.NewBindFile(&echo.DefaultBinder{}),
 	)
 

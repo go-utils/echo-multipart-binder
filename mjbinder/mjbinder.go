@@ -10,14 +10,14 @@ import (
 	"golang.org/x/xerrors"
 )
 
-// JsonPartKey is the key for a JSON part in the multipart request
-const JsonPartKey = "x-multipart-json-binder-request-json"
+// JSONPartKey is the key for a JSON part in the multipart request
+const JSONPartKey = "x-multipart-json-binder-request-json"
 
-// JsonPartHeaderKey is the key in headers for a JSON part that must be set to "1"
-const JsonPartHeaderKey = "X-Multipart-Json-Request"
+// JSONPartHeaderKey is the key in headers for a JSON part that must be set to "1"
+const JSONPartHeaderKey = "X-Multipart-Json-Request"
 
-// NewMultipartJsonBinder can bind JSON fields in multipart data
-func NewMultipartJsonBinder(b echo.Binder) echo.Binder {
+// NewMultipartJSONBinder can bind JSON fields in multipart data
+func NewMultipartJSONBinder(b echo.Binder) echo.Binder {
 	return util.BindFunc(
 		func(i interface{}, c echo.Context) error {
 			if err := b.Bind(i, c); err != nil {
@@ -34,13 +34,13 @@ func NewMultipartJsonBinder(b echo.Binder) echo.Binder {
 				return xerrors.Errorf("error in MultipartForm method: %w", err)
 			}
 
-			files, ok := form.File[JsonPartKey]
+			files, ok := form.File[JSONPartKey]
 
 			if !ok || len(files) == 0 {
 				return nil
 			}
 
-			if err = bindJsonPart(i, files[0]); err != nil {
+			if err = bindJSONPart(i, files[0]); err != nil {
 				return xerrors.Errorf("failed to bind file: %w", err)
 			}
 
@@ -49,7 +49,7 @@ func NewMultipartJsonBinder(b echo.Binder) echo.Binder {
 	)
 }
 
-func bindJsonPart(i interface{}, file *multipart.FileHeader) error {
+func bindJSONPart(i interface{}, file *multipart.FileHeader) error {
 	if file.Header.Get("Content-Type") != "application/json" {
 		return nil
 	}
