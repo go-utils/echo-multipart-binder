@@ -45,7 +45,7 @@ var (
 func echoBindFile(i interface{}, fileMap map[string][]*multipart.FileHeader) error {
 	rv := reflect.Indirect(reflect.ValueOf(i))
 	if rv.Kind() != reflect.Struct {
-		return xerrors.Errorf("bindFile input not is struct pointer, indirect type is %s", rv.Type().String())
+		return xerrors.Errorf("i is not a pointer type of a struct, indirect type is %s", rv.Type().String())
 	}
 
 	rt := rv.Type()
@@ -66,6 +66,15 @@ func echoBindFile(i interface{}, fileMap map[string][]*multipart.FileHeader) err
 			files := getFiles(fileMap, ft.Name, ft.Tag.Get("form"))
 			if len(files) > 0 {
 				fv.Set(reflect.ValueOf(files))
+			}
+		default:
+			if !ft.Anonymous {
+				continue
+			}
+
+			field := rv.Field(i)
+			if err := echoBindFile(field.Addr().Interface(), fileMap); err != nil {
+				return xerrors.Errorf("failed to bind in %s: %w", ft.Name, err)
 			}
 		}
 	}
