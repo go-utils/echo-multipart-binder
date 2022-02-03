@@ -13,9 +13,6 @@ import (
 // JSONPartKey is the key for a JSON part in the multipart request
 const JSONPartKey = "x-multipart-json-binder-request-json"
 
-// JSONPartHeaderKey is the key in headers for a JSON part that must be set to "1"
-const JSONPartHeaderKey = "X-Multipart-Json-Request"
-
 // NewMultipartJSONBinder can bind JSON fields in multipart data
 func NewMultipartJSONBinder(b echo.Binder) echo.Binder {
 	return util.BindFunc(
@@ -51,10 +48,6 @@ func NewMultipartJSONBinder(b echo.Binder) echo.Binder {
 
 func bindJSONPart(i interface{}, file *multipart.FileHeader) error {
 	if file.Header.Get("Content-Type") != "application/json" {
-		return nil
-	}
-
-	if file.Header.Get("X-Multipart-Json-Request") != "1" {
 		return nil
 	}
 

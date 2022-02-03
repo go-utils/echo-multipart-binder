@@ -19,7 +19,6 @@ func CreateJSONRequestMIMEHeader() textproto.MIMEHeader {
 		fmt.Sprintf(`form-data; name="%s"; filename="%s"`,
 			escapeQuotes(JSONPartKey), escapeQuotes(JSONPartKey)))
 	h.Set("Content-Type", "application/json")
-	h.Set(JSONPartHeaderKey, "1")
 
 	return h
 }
