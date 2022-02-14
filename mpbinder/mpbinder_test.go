@@ -62,7 +62,7 @@ func handler(c echo.Context) error {
 func Test_NewBindFile(t *testing.T) {
 	e := echo.New()
 
-	e.Binder = NewBindFile(&echo.DefaultBinder{})
+	e.Binder = NewMultipartFileBinder(&echo.DefaultBinder{})
 
 	body, contentType := createRequest(t, "f", "e")
 

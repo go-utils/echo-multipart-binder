@@ -10,8 +10,8 @@ import (
 	"golang.org/x/xerrors"
 )
 
-// NewBindFile - constructor
-func NewBindFile(b echo.Binder) echo.Binder {
+// NewMultipartFileBinder - constructor
+func NewMultipartFileBinder(b echo.Binder) echo.Binder {
 	return util.BindFunc(
 		func(i interface{}, c echo.Context) error {
 			if err := b.Bind(i, c); err != nil {
