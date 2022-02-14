@@ -72,7 +72,7 @@ func Test_NewMultipartJsonBinder(t *testing.T) {
 	e := echo.New()
 
 	e.Binder = NewMultipartJSONBinder(
-		mpbinder.NewBindFile(&echo.DefaultBinder{}),
+		mpbinder.NewMultipartFileBinder(&echo.DefaultBinder{}),
 	)
 
 	body, contentType := createRequest(t, request{
