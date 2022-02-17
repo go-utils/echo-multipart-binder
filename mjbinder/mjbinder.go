@@ -47,7 +47,7 @@ func NewMultipartJSONBinder(b echo.Binder) echo.Binder {
 }
 
 func bindJSONPart(i interface{}, file *multipart.FileHeader) error {
-	if file.Header.Get("Content-Type") != "application/json" {
+	if !strings.HasPrefix(file.Header.Get("Content-Type"), "application/json") {
 		return nil
 	}
 
